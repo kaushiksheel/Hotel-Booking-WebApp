@@ -1,0 +1,17 @@
+*{
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  overflow-x: hidden;
+}
+
+input,textarea{
+  font: inherit;
+}
+
+.date-range{
+  margin-top: 12px;
+}
