@@ -9,4 +9,4 @@ built with -
 2. Firebase
 3. Material UI
 
-[demo](https://bookstay.netlify.app/)
+[Live Demo](https://bookstay.netlify.app/)
