@@ -1,42 +1,36 @@
 import {
   Box,
   Button,
-  Card,
   CardContent,
   Container,
   ListItem,
-  Typography
+  Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { ImageGallery } from "./ImageGallery";
 import { useParams } from "react-router-dom";
 import { BookingModal } from "../components/BookingModal";
 import { Toaster } from "react-hot-toast";
 import { getHotelBySlug } from "../api/request";
+import { useQuery } from "react-query";
 
 export default function HotelInfo() {
-  const [hotelInfo, setHotelInfo] = useState();
-    const [open, setOpen] =useState(false);
+  const [open, setOpen] = useState(false);
 
   const params = useParams();
   const { slug } = params;
 
   const fetchHoteInfo = async () => {
-    const {data} = await getHotelBySlug(slug);
-    setHotelInfo(data);
+    const { data } = await getHotelBySlug(slug);
+    return data;
   };
-
-
-  useEffect(()=>{
-    fetchHoteInfo();
-    
-  },[slug])
-
 
   const handleOpen = () => setOpen(true);
 
-  const handleClose = () => setOpen(false)
+  const handleClose = () => setOpen(false);
+
+  const { data } = useQuery("hotel-info", fetchHoteInfo);
 
   return (
     <>
@@ -49,24 +43,21 @@ export default function HotelInfo() {
           }}
         >
           <Typography fontSize={22} sx={{ lineHeight: 1.9, marginBottom: 3 }}>
-            {hotelInfo?.name}
+            {data?.name}
           </Typography>
-          <ImageGallery images={hotelInfo?.images}/>
+          <ImageGallery images={data?.images} />
 
           <Box
             sx={{ display: "flex", marginTop: 2, gap: "0 12px", color: "gray" }}
           >
-            {hotelInfo?.rooms.map(room=>
-              <Typography 
-              key={room.id}
-              variant="caption">{room.content}</Typography>
-              )}
-            
-            
-          
+            {data?.rooms.map((room) => (
+              <Typography key={room.id} variant="caption">
+                {room.content}
+              </Typography>
+            ))}
           </Box>
           <Typography variant="subtitle1" sx={{ marginTop: 2 }}>
-          {hotelInfo?.aboutThePlace}
+            {data?.aboutThePlace}
           </Typography>
           <Box sx={{ marginTop: 2 }}>
             <Typography variant="h5">What this place offers!!</Typography>
@@ -78,29 +69,29 @@ export default function HotelInfo() {
               }}
             >
               <Box sx={{ flex: 1 }}>
-                {hotelInfo?.features.map(feature=>
-                <ListItem key={feature.id}>{feature.text}</ListItem>
-                  )}
-              
+                {data?.features.map((feature) => (
+                  <ListItem key={feature.id}>{feature.text}</ListItem>
+                ))}
               </Box>
-              <Card>
-                <CardContent>
-                  <Button onClick={handleOpen} variant="outlined">Reserve</Button>
-                </CardContent>
-              </Card>
+
+              <CardContent>
+                <Button onClick={handleOpen} variant="outlined">
+                  Reserve
+                </Button>
+              </CardContent>
             </Box>
           </Box>
         </Container>
       </main>
-      <BookingModal hotelInfo={hotelInfo&&hotelInfo} open={open} handleClose={handleClose}/>
+      <BookingModal hotelInfo={data} open={open} handleClose={handleClose} />
       <Toaster
-      position="top-right"
-      toastOptions={{
-        duration:1500,
-        style:{
-          fontSize:14
-        }
-      }}
+        position="top-right"
+        toastOptions={{
+          duration: 1500,
+          style: {
+            fontSize: 14,
+          },
+        }}
       />
     </>
   );

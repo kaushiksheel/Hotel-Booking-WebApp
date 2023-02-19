@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Container, Button, Typography } from "@mui/material";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
 import { auth, provider, db } from "../lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
