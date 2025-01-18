@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const BASE_URL='https://hotels-api-one.vercel.app/apicar'
+const BASE_URL='https://hotels-api-one.vercel.app/api'
 
 
 const getHotels=()=>axios.get(`${BASE_URL}/hotels`)
