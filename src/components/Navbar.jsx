@@ -36,7 +36,10 @@ export const Navbar = () => {
   };
 
   return (
-    <AppBar position="sticky" color="inherit">
+    <AppBar position="sticky" color="inherit" sx={{
+      bgcolor: "background.default",
+      color: "text.primary",
+    }}>
       <Container maxWidth="lg">
         <Toolbar
           disableGutters
