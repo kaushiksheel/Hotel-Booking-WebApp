@@ -2,27 +2,24 @@ import {
   AppBar,
   Avatar,
   Box,
-  Button,
   Container,
+  FormControlLabel,
+  FormGroup,
   IconButton,
   Menu,
   MenuItem,
-  Typography,
-  FormGroup,
-  FormControlLabel,
-  Switch,
   Toolbar,
+  Typography,
 } from "@mui/material";
-import { signOut } from "firebase/auth";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
 import { auth } from "../lib/firebase";
 import { MaterialUISwitch } from "./Switch";
+import { AuthContext } from "../context/AuthContext";
+import ThemeToggle from "./ThemeToggle";
 
 export const Navbar = () => {
-  const { currentUser, setDarkMode } = useContext(AuthContext);
-
+  const { currentUser } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
@@ -61,15 +58,7 @@ export const Navbar = () => {
             BookStay
           </Typography>
           <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-            <FormGroup sx={{ display: { xs: "none", md: "flex" } }}>
-              <FormControlLabel
-                control={
-                  <MaterialUISwitch
-                    onChange={() => setDarkMode((prev) => !prev)}
-                  />
-                }
-              />
-            </FormGroup>
+            <ThemeToggle />
 
             <Typography
               onClick={() => setDarkMode((prev) => !prev)}

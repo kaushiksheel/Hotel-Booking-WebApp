@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Navbar } from "../components/Navbar";
 import { Container, Grid } from "@mui/material";
+import React from "react";
+import { useQuery } from "react-query";
+import { getHotels } from "../api/request";
 import { HotelCard } from "../components/HotelCard";
 import { LoadingSkeleton } from "../components/LoadingSkeleton";
-import { getHotels } from "../api/request";
-import { useQuery } from "react-query";
+import { Navbar } from "../components/Navbar";
 
-export default function Home({ setDarkMode }) {
+export default function Home() {
   const fetchHotels = async () => {
     const { data } = await getHotels();
     return data;
@@ -18,7 +18,7 @@ export default function Home({ setDarkMode }) {
     <LoadingSkeleton />
   ) : (
     <>
-      <Navbar setDarkMode={setDarkMode} />
+      <Navbar />
       <main>
         <Container maxWidth={"lg"} sx={{ marginTop: 3 }}>
           <Grid container spacing={2}>

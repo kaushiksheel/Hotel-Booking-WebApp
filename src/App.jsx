@@ -1,13 +1,16 @@
-import React, { useState, lazy, Suspense } from "react";
-import Login from "./pages/Login";
-import { Routes, Route } from "react-router-dom";
-import NotFound from "./pages/NotFound";
-import { AuthContextProvider } from "./context/AuthContext";
-import { ThemeProviderComp } from "./components/ThemeProvider";
-import { LoadingSkeleton } from "./components/LoadingSkeleton";
-import MyProfile from "./pages/MyProfile";
-import PrivateRoute from "./components/PrivateRoute";
+import React, { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { Route, Routes } from "react-router-dom";
+import { LoadingSkeleton } from "./components/LoadingSkeleton";
+import PrivateRoute from "./components/PrivateRoute";
+import { AuthContextProvider } from "./context/AuthContext";
+import Login from "./pages/Login";
+import MyProfile from "./pages/MyProfile";
+import NotFound from "./pages/NotFound";
+
+import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/styles";
+import { theme } from "./helper/theme";
+import { Box } from "@mui/material";
 
 const Home = lazy(() => import("./pages/Home"));
 const HotelInfo = lazy(() => import("./pages/HotelInfo"));
@@ -15,12 +18,16 @@ const HotelInfo = lazy(() => import("./pages/HotelInfo"));
 const queryClient = new QueryClient();
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
-
   return (
-    <>
-      <ThemeProviderComp darkMode={darkMode}>
-        <AuthContextProvider setDarkMode={setDarkMode}>
+    <CssVarsProvider theme={theme} defaultMode="system">
+      <Box
+        sx={{
+          minHeight: "100vh",
+          bgcolor: "background.default",
+          color: "text.primary",
+        }}
+      >
+        <AuthContextProvider>
           <Suspense fallback={<LoadingSkeleton />}>
             <QueryClientProvider client={queryClient}>
               <Routes>
@@ -42,7 +49,7 @@ export default function App() {
             </QueryClientProvider>
           </Suspense>
         </AuthContextProvider>
-      </ThemeProviderComp>
-    </>
+      </Box>
+    </CssVarsProvider>
   );
 }
